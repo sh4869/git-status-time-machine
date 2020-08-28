@@ -4,7 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/go-github/v32/github"
 )
@@ -23,6 +25,14 @@ func main() {
 			"message": "pong",
 		})
 	})
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3030"},
+		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST"},
+		AllowHeaders:     []string{"Origin"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 	r.GET("/score/ci/:name/:repo", func(c *gin.Context) {
 		name := c.Param("name")
 		repo := c.Param("repo")

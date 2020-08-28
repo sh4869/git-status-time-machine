@@ -7,7 +7,6 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/go-github/v32/github"
-	"gopkg.in/olahol/melody.v1"
 )
 
 func main() {
@@ -18,21 +17,17 @@ func main() {
 		fmt.Printf("%v", err)
 	}
 	fmt.Printf("%v\n", string(json))
-	// list all organizations for user "willnorris"
-	//orgs, _, err := client.Organizations.List(context.Background(), "willnorris", nil)
-	// fmt.Printf("%v, %v\n", orgs, err)
-	m := melody.New()
 	r := gin.Default()
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
 	})
-	r.GET("/ws", func(c *gin.Context) {
-		m.HandleRequest(c.Writer, c.Request)
-	})
-	m.HandleConnect(func(s *melody.Session) {
-		s.Write(json)
+	r.GET("/score/ci/:name/:repo", func(c *gin.Context) {
+		name := c.Param("name")
+		repo := c.Param("repo")
+		result := getCIFiles(client, name, repo)
+		c.JSON(200, result)
 	})
 	r.Run()
 }

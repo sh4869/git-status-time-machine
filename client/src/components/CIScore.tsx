@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Repo } from '../types/repo';
 import { CIScore } from 'src/types/ciscore';
+import { PieChart } from 'react-minimal-pie-chart';
 
 export const CIScoreUI = (props: Props) => {
   const [ciScore, setCiScore] = React.useState<CIScore | null>(null);
@@ -17,7 +18,16 @@ export const CIScoreUI = (props: Props) => {
     }
   }, [ciScore]);
   return ciScore != null ? (
-    <div>score: {ciScore.score}</div>
+    <div style={{ width: '500px' }}>
+      <PieChart
+        data={[{ value: ciScore.score, color: '#E38627' }]}
+        reveal={ciScore.score}
+        lineWidth={20}
+        background="#bfbfbf"
+        animate
+        label={({ dataEntry }) => ciScore.score}
+      />
+    </div>
   ) : (
     <div>loading</div>
   );

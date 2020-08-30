@@ -23,9 +23,7 @@ export const App = () => {
       </button>
       {start ? (
         <CIScoreUI repo={{ name: repo, owner: owner }}></CIScoreUI>
-      ) : (
-        <div></div>
-      )}
+      ) : null}
     </div>
   );
 };

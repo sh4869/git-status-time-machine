@@ -29,6 +29,7 @@
   "dependencies": {
     "axios": "^0.20.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-minimal-pie-chart": "^8.0.1"
   }
 }

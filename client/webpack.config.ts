@@ -15,6 +15,11 @@ const config: Configuration = {
         test: /\.tsx?$/,
         use: 'awesome-typescript-loader',
       },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader?modules',
+        include: /flexboxgrid/,
+      },
     ],
   },
   resolve: {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { CIScoreUI } from './components/CIScore';
+import { Grid, Col, Row } from 'react-flexbox-grid';
 
 export const App = () => {
   const [repo, setRepo] = React.useState('');
@@ -7,7 +8,6 @@ export const App = () => {
   const [start, setStart] = React.useState(false);
   return (
     <div>
-      <h1>Hello World</h1>
       <p>Owner</p>
       <input onChange={(e) => setOwner(e.target.value)} value={owner}></input>
       <p>Repo</p>
@@ -21,9 +21,15 @@ export const App = () => {
       >
         Start
       </button>
-      {start ? (
-        <CIScoreUI repo={{ name: repo, owner: owner }}></CIScoreUI>
-      ) : null}
+      <Grid>
+        <Row>
+          <Col xs={12} md={4}>
+            {start ? (
+              <CIScoreUI repo={{ name: repo, owner: owner }}></CIScoreUI>
+            ) : null}
+          </Col>
+        </Row>
+      </Grid>
     </div>
   );
 };

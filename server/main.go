@@ -2,19 +2,29 @@ package main
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
+	"os"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/google/go-github/v32/github"
+	"github.com/joho/godotenv"
+	"golang.org/x/oauth2"
 )
 
+func getClient() *github.Client {
+	token := os.Getenv("GITHUB_TOKEN")
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: token},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+	client := github.NewClient(tc)
+	return client
+}
+
 func main() {
-	client := github.NewClient(nil)
-	result := getCIFiles(client, "sh4869", "diary")
-	json, err := json.Marshal(result)
+	err := godotenv.Load()
 	if err != nil {
 		fmt.Printf("%v", err)
 	}

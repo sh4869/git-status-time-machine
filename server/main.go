@@ -41,11 +41,16 @@ func main() {
 		MaxAge:           12 * time.Hour,
 	}))
 
-	r.GET("/score/ci/:name/:repo", func(c *gin.Context) {
+	r.GET("/score/:name/:repo/ci", func(c *gin.Context) {
 		name := c.Param("name")
 		repo := c.Param("repo")
 		result := evaluation.GetCIScore(getClient(), name, repo)
 		c.JSON(200, result)
 	})
+	r.GET("/score/:name/:repo/test", func(c *gin.Context) {})
+	r.GET("/score/:name/:repo/code", func(c *gin.Context) {})
+	r.GET("/commit/:name/:repo/commit_point", func(c *gin.Context) {
+	})
+
 	r.Run()
 }

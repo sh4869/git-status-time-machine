@@ -1,31 +1,22 @@
 import * as React from 'react';
-import { Repo } from '../types/repo';
-import { CIScore } from 'src/types/ciscore';
+import { Commit } from '../../types/commit';
+import { CIScore } from 'src/types/score';
 import { PieChart } from 'react-minimal-pie-chart';
 
-export const CIScoreUI = (props: Props) => {
+export const CIScoreUI = (props: Props): React.ReactElement => {
   const [ciScore, setCiScore] = React.useState<CIScore | null>(null);
   React.useEffect(() => {
     if (ciScore == null) {
       (async () => {
-        fetch(
-          `http://localhost:8080/score/ci/${props.repo.owner}/${props.repo.name}`,
-        )
-          .then((v) => v.json())
-          .then((v) => setCiScore(v));
+        const result = await fetch(`http://localhost:8080/score/${props.commit.owner}/${props.commit.name}/ci`);
+        const json = await result.json();
+        setCiScore(json);
       })();
     }
   }, [ciScore]);
-  const color = ciScore
-    ? ciScore.score == 100
-      ? '#05c107'
-      : ciScore.score > 50
-      ? '#E38627'
-      : 'red'
-    : 'black';
+  const color = ciScore ? (ciScore.score == 100 ? '#05c107' : ciScore.score > 50 ? '#E38627' : 'red') : 'black';
   return ciScore != null ? (
     <div style={{ textAlign: 'center' }}>
-      <h1>CI</h1>
       <PieChart
         data={[{ value: ciScore.score, color: color }]}
         reveal={ciScore.score}
@@ -38,10 +29,12 @@ export const CIScoreUI = (props: Props) => {
           fontSize: '25px',
           fontFamily: 'sans-serif',
         })}
-        style={{ height: '300px' }}
+        style={{ height: '200px' }}
         labelPosition={0}
       />
       {ciScore.github_ci ? <p>Using GitHub CI</p> : null}
+      {ciScore.travis_ci ? <p>Using Travis CI</p> : null}
+      {ciScore.circle_ci ? <p>Using Circle CI</p> : null}
     </div>
   ) : (
     <div>loading</div>
@@ -49,5 +42,5 @@ export const CIScoreUI = (props: Props) => {
 };
 
 type Props = {
-  repo: Repo;
+  commit: Commit;
 };

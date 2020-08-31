@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { CIScoreUI } from './components/CIScore';
-import { Grid, Col, Row } from 'react-flexbox-grid';
+import { RepositoryBoard } from './components/RepositoryBoard';
 
 export const App = () => {
   const [repo, setRepo] = React.useState('');
@@ -21,15 +20,7 @@ export const App = () => {
       >
         Start
       </button>
-      <Grid>
-        <Row>
-          <Col xs={12} md={4}>
-            {start ? (
-              <CIScoreUI repo={{ name: repo, owner: owner }}></CIScoreUI>
-            ) : null}
-          </Col>
-        </Row>
-      </Grid>
+      <RepositoryBoard owner={owner || 'sh4869'} name={name || 'diary'} />
     </div>
   );
 };

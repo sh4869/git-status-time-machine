@@ -20,3 +20,11 @@ export type CIScore = {
   travis_ci?: TravisCi;
   circle_ci?: CircleCi;
 };
+
+export type CodeScore = {
+  score: number;
+};
+
+export type TestScore = {
+  score: number;
+};

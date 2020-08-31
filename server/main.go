@@ -73,6 +73,13 @@ func main() {
 	})
 
 	r.GET("/commit/:name/:repo/commit_point", func(c *gin.Context) {
+		name := c.Param("name")
+		repo := c.Param("repo")
+		result, err := evaluation.GetCommitPoint(client, name, repo)
+		if err != nil {
+			c.Error(err)
+		}
+		c.JSON(200, result)
 	})
 
 	r.Run()

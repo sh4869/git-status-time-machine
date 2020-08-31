@@ -6,6 +6,6 @@ type CodeScore struct {
 	Score int `json:"score"`
 }
 
-func GetCodeScore(client *github.Client, owner string, repo string) (CodeScore, error) {
+func GetCodeScore(client *github.Client, owner string, repo string, sha string) (CodeScore, error) {
 	return CodeScore{Score: 100}, nil
 }

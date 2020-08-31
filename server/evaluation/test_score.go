@@ -6,6 +6,6 @@ type TestScore struct {
 	Score int `json:"score"`
 }
 
-func GetTestScore(client *github.Client, owner string, repo string) (TestScore, error) {
+func GetTestScore(client *github.Client, owner string, repo string, sha string) (TestScore, error) {
 	return TestScore{Score: 100}, nil
 }

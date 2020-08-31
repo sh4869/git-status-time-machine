@@ -31,6 +31,7 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 	r := gin.Default()
+	client := getClient()
 
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3030"},
@@ -44,14 +45,16 @@ func main() {
 	r.GET("/score/:name/:repo/ci", func(c *gin.Context) {
 		name := c.Param("name")
 		repo := c.Param("repo")
-		result := evaluation.GetCIScore(getClient(), name, repo)
+		sha := c.Query("sha")
+		result := evaluation.GetCIScore(client, name, repo, sha)
 		c.JSON(200, result)
 	})
 
 	r.GET("/score/:name/:repo/test", func(c *gin.Context) {
 		name := c.Param("name")
 		repo := c.Param("repo")
-		result, err := evaluation.GetTestScore(getClient(), name, repo)
+		sha := c.Query("sha")
+		result, err := evaluation.GetTestScore(client, name, repo, sha)
 		if err != nil {
 			c.Error(err)
 		}
@@ -61,7 +64,8 @@ func main() {
 	r.GET("/score/:name/:repo/code", func(c *gin.Context) {
 		name := c.Param("name")
 		repo := c.Param("repo")
-		result, err := evaluation.GetCodeScore(getClient(), name, repo)
+		sha := c.Query("sha")
+		result, err := evaluation.GetCodeScore(client, name, repo, sha)
 		if err != nil {
 			c.Error(err)
 		}

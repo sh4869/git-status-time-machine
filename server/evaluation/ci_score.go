@@ -30,13 +30,20 @@ type GitHubFile struct {
 	URL  string `json:"url"`
 }
 
-func GetCIScore(client *github.Client, owner string, repo string) (result CIResult) {
+func GetCIScore(client *github.Client, owner string, repo string, sha string) (result CIResult) {
 	const GithubCiPath = ".github/workflows"
 	const TravisCiPath = ".travis.yml"
 	const CircleCiPath = ".circleci"
+	var opts *github.RepositoryContentGetOptions
+	if sha == "" {
+		opts = nil
+	} else {
+		opts = &github.RepositoryContentGetOptions{Ref: sha}
+	}
+
 	var d CIResult
 	d.Score = 0
-	_, dir, _, err := client.Repositories.GetContents(context.Background(), owner, repo, GithubCiPath, nil)
+	_, dir, _, err := client.Repositories.GetContents(context.Background(), owner, repo, GithubCiPath, opts)
 	if err != nil {
 		d.Github = nil
 	} else {
@@ -47,7 +54,7 @@ func GetCIScore(client *github.Client, owner string, repo string) (result CIResu
 			d.Github.Files = newfiles
 		}
 	}
-	files, _, _, err := client.Repositories.GetContents(context.Background(), owner, repo, TravisCiPath, nil)
+	files, _, _, err := client.Repositories.GetContents(context.Background(), owner, repo, TravisCiPath, opts)
 	if err != nil {
 		d.Travis = nil
 	} else {
@@ -55,7 +62,7 @@ func GetCIScore(client *github.Client, owner string, repo string) (result CIResu
 		d.Travis = &(TravisCi{GitHubFile{}})
 		d.Travis.File = GitHubFile{files.GetPath(), files.GetHTMLURL()}
 	}
-	_, dir, _, err = client.Repositories.GetContents(context.Background(), owner, repo, CircleCiPath, nil)
+	_, dir, _, err = client.Repositories.GetContents(context.Background(), owner, repo, CircleCiPath, opts)
 	if err != nil {
 		d.Circleci = nil
 	} else {

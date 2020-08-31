@@ -8,7 +8,9 @@ export const CIScoreUI = (props: Props): React.ReactElement => {
   React.useEffect(() => {
     if (ciScore == null) {
       (async () => {
-        const result = await fetch(`http://localhost:8080/score/${props.commit.owner}/${props.commit.name}/ci`);
+        const result = await fetch(
+          `http://localhost:8080/score/${props.commit.owner}/${props.commit.name}/ci?sha=${props.commit.sha?.sha}`,
+        );
         const json = await result.json();
         setCiScore(json);
       })();

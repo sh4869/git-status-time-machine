@@ -47,8 +47,27 @@ func main() {
 		result := evaluation.GetCIScore(getClient(), name, repo)
 		c.JSON(200, result)
 	})
-	r.GET("/score/:name/:repo/test", func(c *gin.Context) {})
-	r.GET("/score/:name/:repo/code", func(c *gin.Context) {})
+
+	r.GET("/score/:name/:repo/test", func(c *gin.Context) {
+		name := c.Param("name")
+		repo := c.Param("repo")
+		result, err := evaluation.GetTestScore(getClient(), name, repo)
+		if err != nil {
+			c.Error(err)
+		}
+		c.JSON(200, result)
+	})
+
+	r.GET("/score/:name/:repo/code", func(c *gin.Context) {
+		name := c.Param("name")
+		repo := c.Param("repo")
+		result, err := evaluation.GetCodeScore(getClient(), name, repo)
+		if err != nil {
+			c.Error(err)
+		}
+		c.JSON(200, result)
+	})
+
 	r.GET("/commit/:name/:repo/commit_point", func(c *gin.Context) {
 	})
 

@@ -46,7 +46,10 @@ func main() {
 		name := c.Param("name")
 		repo := c.Param("repo")
 		sha := c.Query("sha")
-		result := evaluation.GetCIScore(client, name, repo, sha)
+		result, err := evaluation.GetCIScore(client, name, repo, sha)
+		if err != nil {
+			c.Error(err)
+		}
 		c.JSON(200, result)
 	})
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CIScoreUI } from './components/CIScore';
+import { RepositoryBoard } from './components/RepositoryBoard';
 
 export const App = () => {
   const [repo, setRepo] = React.useState('');
@@ -7,7 +7,6 @@ export const App = () => {
   const [start, setStart] = React.useState(false);
   return (
     <div>
-      <h1>Hello World</h1>
       <p>Owner</p>
       <input onChange={(e) => setOwner(e.target.value)} value={owner}></input>
       <p>Repo</p>
@@ -21,9 +20,7 @@ export const App = () => {
       >
         Start
       </button>
-      {start ? (
-        <CIScoreUI repo={{ name: repo, owner: owner }}></CIScoreUI>
-      ) : null}
+      <RepositoryBoard owner={owner || 'sh4869'} name={name || 'diary'} />
     </div>
   );
 };

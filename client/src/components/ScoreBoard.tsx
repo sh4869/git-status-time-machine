@@ -7,6 +7,7 @@ import { CodeScoreUI } from './score/CodeScoreUI';
 import * as Moment from 'moment';
 
 export const ScoreBoard = (props: { commit: Commit }) => {
+  const commit = props.commit.commit?.commit;
   return (
     <>
       <Col
@@ -18,15 +19,13 @@ export const ScoreBoard = (props: { commit: Commit }) => {
           alignItems: 'center',
         }}
       >
-        {props.commit.sha ? (
+        {commit ? (
           <div style={{ textAlign: 'center' }}>
-            <p>{props.commit.sha.commit.message}</p>
-            <a href={props.commit.sha.html_url}>
-              <p style={{ fontSize: '0.9em', color: '#333' }}>{props.commit.sha?.sha.substring(0, 6)}</p>
+            <p>{commit.commit.message}</p>
+            <a href={commit.html_url}>
+              <p style={{ fontSize: '0.9em', color: '#333' }}>{commit.sha.substring(0, 6)}</p>
             </a>
-            <p style={{ fontSize: '0.9em', color: '#333' }}>
-              {Moment(props.commit.sha.commit.author.date).format('YYYY/MM/DD')}
-            </p>
+            <p style={{ fontSize: '0.9em', color: '#333' }}>{Moment(commit.commit.author.date).format('YYYY/MM/DD')}</p>
           </div>
         ) : null}
       </Col>

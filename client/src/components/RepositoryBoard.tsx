@@ -39,14 +39,14 @@ export const RepositoryBoard = (props: { owner: string; name: string }) => {
       </Row>
       {commits?.latest ? (
         <Row>
-          <ScoreBoard commit={{ ...props, sha: commits.latest }}></ScoreBoard>
+          <ScoreBoard commit={{ ...props, commit: commits.latest }}></ScoreBoard>
         </Row>
       ) : null}
       {commits?.midterm ? (
         <>
           <Gap></Gap>
           <Row>
-            <ScoreBoard commit={{ ...props, sha: commits.midterm }}></ScoreBoard>
+            <ScoreBoard commit={{ ...props, commit: commits.midterm }}></ScoreBoard>
           </Row>
         </>
       ) : null}
@@ -54,7 +54,7 @@ export const RepositoryBoard = (props: { owner: string; name: string }) => {
         <>
           <Gap></Gap>
           <Row>
-            <ScoreBoard commit={{ ...props, sha: commits.initial }}></ScoreBoard>
+            <ScoreBoard commit={{ ...props, commit: commits.initial }}></ScoreBoard>
           </Row>
         </>
       ) : null}

@@ -5,6 +5,7 @@ import { CIScoreUI } from './score/CIScoreUI';
 import { TestScoreUI } from './score/TestScoreUI';
 import { CodeScoreUI } from './score/CodeScoreUI';
 import * as Moment from 'moment';
+import { CommitStatusComponent } from './status/Status';
 
 export const ScoreBoard = (props: { commit: Commit }) => {
   const commit = props.commit.commit?.commit;
@@ -29,14 +30,17 @@ export const ScoreBoard = (props: { commit: Commit }) => {
           </div>
         ) : null}
       </Col>
-      <Col xs={12} md={3}>
+      <Col xs={12} md={2}>
         <CIScoreUI commit={props.commit} />
       </Col>
-      <Col xs={12} md={3}>
+      <Col xs={12} md={2}>
         <TestScoreUI commit={props.commit} />
       </Col>
-      <Col xs={12} md={3}>
+      <Col xs={12} md={2}>
         <CodeScoreUI commit={props.commit} />
+      </Col>
+      <Col xs={12} md={2}>
+        <CommitStatusComponent commit={props.commit} />
       </Col>
     </>
   );

@@ -26,13 +26,13 @@ export const RepositoryBoard = (props: { owner: string; name: string }) => {
     <Grid>
       <Row style={{ textAlign: 'center' }}>
         <Col xs={12} md={2}></Col>
-        <Col md={3}>
+        <Col md={2}>
           <h2>CI</h2>
         </Col>
-        <Col md={3}>
+        <Col md={2}>
           <h2>TEST</h2>
         </Col>
-        <Col md={3}>
+        <Col md={2}>
           <h2>CODE</h2>
         </Col>
         <Col md={1}></Col>

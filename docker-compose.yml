@@ -1,0 +1,22 @@
+version: "3"
+services:
+  client:
+    image: "node:12"
+    working_dir: /usr/src/app
+    ports:
+    - 3030:3030
+    volumes:
+    - ./client:/usr/src/app
+    links:
+    - server
+    command: yarn start:dev
+  server:
+    build: ./server/
+    volumes: 
+    - ./server:/usr/src/server
+    ports:
+    - 8080:8080
+    links:
+    - redis
+  redis:
+    image: redis  

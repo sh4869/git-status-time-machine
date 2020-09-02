@@ -15,10 +15,10 @@ export const CommitStatusComponent = (props: { commit: Commit }) => {
     }
   });
   return status != null ? (
-    <div style={{ textAlign: 'center' }}>
-      <p>Commit / h: {status.commit_per_hour.toFixed(2)}</p>
-      <p>Addition / h: {status.addition_per_hour}</p>
-      <p>Deletion / h: {status.deletion_per_hour}</p>
+          <div>
+            <p>Commit : {status.commit_interval.toFixed(2)} h </p>
+            <p>Addition / day: {status.addition_per_day}</p>
+            <p>Deletion / day: {status.deletion_per_day}</p>
     </div>
   ) : (
     <div>Loading</div>

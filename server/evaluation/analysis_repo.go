@@ -15,9 +15,9 @@ func getCommitCount(client *github.Client, name string, repo string) (int, error
 }
 
 type CommitStatus struct {
-	CommitPerHour   float64 `json:"commit_per_hour"`
-	AdditionPerHour int     `json:"addition_per_hour"`
-	DeletionPerHour int     `json:"deletion_per_hour"`
+	CommitInterval float64        `json:"commit_interval"`
+	AdditionPerDay int            `json:"addition_per_day"`
+	DeletionPerDay int            `json:"deletion_per_day"`
 }
 
 func GetCommitStatus(client *github.Client, name string, repo string, count int) (*CommitStatus, error) {

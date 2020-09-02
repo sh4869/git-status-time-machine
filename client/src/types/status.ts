@@ -1,5 +1,5 @@
 export type CommitStatus = {
-  commit_per_hour: number;
-  addition_per_hour: number;
-  deletion_per_hour: number;
+  commit_interval: number;
+  addition_per_day: number;
+  deletion_per_day: number;
 };

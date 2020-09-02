@@ -20,7 +20,7 @@ export const App = () => {
       >
         Start
       </button>
-      <RepositoryBoard owner={owner || 'sh4869'} name={name || 'diary'} />
+      <RepositoryBoard owner={owner || 'sh4869'} name={name || 'prototype'} />
     </div>
   );
 };

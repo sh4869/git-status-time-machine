@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"server/evaluation"
+	"strconv"
 	"time"
 
 	"github.com/gin-contrib/cors"
@@ -79,6 +80,16 @@ func main() {
 		name := c.Param("name")
 		repo := c.Param("repo")
 		result, err := evaluation.GetCommitPoint(client, name, repo)
+		if err != nil {
+			c.Error(err)
+		}
+		c.JSON(200, result)
+	})
+	r.GET("/commit/:name/:repo/commit_status/:count", func(c *gin.Context) {
+		name := c.Param("name")
+		repo := c.Param("repo")
+		count, _ := strconv.Atoi(c.Param("count"))
+		result, err := evaluation.GetCommitStatus(client, name, repo, count)
 		if err != nil {
 			c.Error(err)
 		}

@@ -9,7 +9,7 @@ export const CIScoreUI = (props: Props): React.ReactElement => {
     if (ciScore == null) {
       (async () => {
         const result = await fetch(
-          `http://localhost:8080/score/${props.commit.owner}/${props.commit.name}/ci?sha=${props.commit.sha?.sha}`,
+          `http://localhost:8080/score/${props.commit.owner}/${props.commit.name}/ci?sha=${props.commit.commit?.commit.sha}`,
         );
         const json = await result.json();
         setCiScore(json);
@@ -31,9 +31,10 @@ export const CIScoreUI = (props: Props): React.ReactElement => {
           fontSize: '25px',
           fontFamily: 'sans-serif',
         })}
-        style={{ height: '200px' }}
+        style={{ height: '150px' }}
         labelPosition={0}
       />
+      {ciScore.score == 0 ? <p>Not Setting CI</p> : null}
       {ciScore.github_ci ? <p>Using GitHub CI</p> : null}
       {ciScore.travis_ci ? <p>Using Travis CI</p> : null}
       {ciScore.circle_ci ? <p>Using Circle CI</p> : null}

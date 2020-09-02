@@ -3,6 +3,7 @@ module server
 go 1.15
 
 require (
+	github.com/RichardKnop/machinery v1.9.1
 	github.com/cespare/reflex v0.3.0 // indirect
 	github.com/cosmtrek/air v1.21.2 // indirect
 	github.com/gin-contrib/cors v1.3.1

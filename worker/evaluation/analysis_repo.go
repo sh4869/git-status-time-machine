@@ -2,7 +2,6 @@ package evaluation
 
 import (
 	"context"
-	"log"
 	"sort"
 
 	"github.com/google/go-github/v32/github"
@@ -45,7 +44,6 @@ func GetCommitStatus(client *github.Client, name string, repo string, count int)
 		if _, ok := m[login]; ok {
 			m[login] = d{list[v].Committer, m[login].count + 1}
 		} else {
-			log.Printf("%v", list[v])
 			m[login] = d{list[v].Committer, 1}
 		}
 

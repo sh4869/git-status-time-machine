@@ -23,7 +23,7 @@ export const RepositoryBoard = (props: { owner: string; name: string }) => {
     </Row>
   );
   return (
-    <Grid>
+    <Grid fluid={true}>
       <Row style={{ textAlign: 'center' }}>
         <Col xs={12} md={2}></Col>
         <Col md={2}>

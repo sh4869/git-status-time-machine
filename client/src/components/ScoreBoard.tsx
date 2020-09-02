@@ -8,18 +8,15 @@ import * as Moment from 'moment';
 import { CommitStatusComponent } from './status/Status';
 
 export const ScoreBoard = (props: { commit: Commit }) => {
+  const style = {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
   const commit = props.commit.commit?.commit;
   return (
     <>
-      <Col
-        xs={12}
-        md={2}
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+      <Col xs={12} md={2} style={style}>
         {commit ? (
           <div style={{ textAlign: 'center' }}>
             <p>{commit.commit.message}</p>
@@ -39,7 +36,7 @@ export const ScoreBoard = (props: { commit: Commit }) => {
       <Col xs={12} md={2}>
         <CodeScoreUI commit={props.commit} />
       </Col>
-      <Col xs={12} md={2}>
+      <Col xs={12} md={3} style={style}>
         <CommitStatusComponent commit={props.commit} />
       </Col>
     </>

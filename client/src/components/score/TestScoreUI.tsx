@@ -29,7 +29,7 @@ export const TestScoreUI = (props: { commit: Commit }) => {
           fontSize: '25px',
           fontFamily: 'sans-serif',
         })}
-        style={{ height: '200px' }}
+        style={{ height: '150px' }}
         labelPosition={0}
       />
     </div>

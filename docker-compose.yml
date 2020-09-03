@@ -13,10 +13,20 @@ services:
   server:
     build: ./server/
     volumes: 
-    - ./server:/usr/src/server
+    - ./server:/go/usr/server
     ports:
     - 8080:8080
     links:
     - redis
+    tty:
+      true
+  worker:
+    build: ./worker/
+    volumes: 
+    - ./worker:/go/usr/worker
+    links:
+    - redis
+    tty:
+      true
   redis:
-    image: redis  
+    image: redis

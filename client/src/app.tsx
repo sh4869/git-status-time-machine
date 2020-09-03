@@ -2,25 +2,25 @@ import * as React from 'react';
 import { RepositoryBoard } from './components/RepositoryBoard';
 
 export const App = () => {
-  const [repo, setRepo] = React.useState('');
-  const [owner, setOwner] = React.useState('');
-  const [start, setStart] = React.useState(false);
+  const [repoI, setRepo] = React.useState('');
+  const [ownerI, setOwner] = React.useState('');
+  const [start, setStart] = React.useState(true);
   return (
     <div>
       <p>Owner</p>
-      <input onChange={(e) => setOwner(e.target.value)} value={owner}></input>
+      <input onChange={(e) => setOwner(e.target.value)} value={ownerI}></input>
       <p>Repo</p>
-      <input onChange={(e) => setRepo(e.target.value)} value={repo}></input>
+      <input onChange={(e) => setRepo(e.target.value)} value={repoI}></input>
       <br></br>
       <button
         onClick={(e) => {
-          console.log(e);
+          console.log(repoI, ownerI);
           setStart(!start);
         }}
       >
         Start
       </button>
-      <RepositoryBoard owner={owner || 'sh4869'} name={name || 'prototype'} />
+      {start ? <RepositoryBoard owner={ownerI ? ownerI : 'sh4869'} name={repoI ? repoI : 'prototype'} /> : null}
     </div>
   );
 };

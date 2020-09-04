@@ -30,7 +30,7 @@ export const ScoreBoard = (props: { commit: Commit; title: string }): React.Reac
     <>
       <Row>
         <Col md={2} mdOffset={5}>
-          <h2 style={{ textAlign: 'center', marginBottom: '0.2em', marginTop: '4em' }}>{props.title}</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.2em' }}>{props.title}</h2>
         </Col>
       </Row>
       <Row style={{ marginBottom: '1em' }}>
@@ -67,7 +67,7 @@ export const ScoreBoard = (props: { commit: Commit; title: string }): React.Reac
           <h3 style={{ textAlign: 'center' }}>Code Status</h3>
         </Col>
       </Row>
-      <Row>
+      <Row style={{ marginBottom: '4em' }}>
         <Col xs={12} md={4} mdOffset={2}>
           <CommitStatusComponent commit={props.commit} />
         </Col>

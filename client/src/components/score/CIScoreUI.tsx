@@ -9,7 +9,7 @@ export const CIScoreUI = (props: Props): React.ReactElement => {
     if (ciScore == null) {
       (async () => {
         const result = await fetch(
-          `http://localhost:8080/score/${props.commit.owner}/${props.commit.name}/ci?sha=${props.commit.commit?.commit.sha}`,
+          `http://localhost:8080/score/${props.commit.owner}/${props.commit.name}/ci?sha=${props.commit.commit?.end_commit.sha}`,
         );
         const json = await result.json();
         setCiScore(json);
@@ -40,7 +40,7 @@ export const CIScoreUI = (props: Props): React.ReactElement => {
       {ciScore.circle_ci ? <p>Using Circle CI</p> : null}
     </div>
   ) : (
-    <div>loading</div>
+    <div style={{ textAlign: 'center' }}>loading</div>
   );
 };
 

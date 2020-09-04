@@ -40,11 +40,11 @@ func GetCommitStatus(client *github.Client, name string, repo string, count int)
 	}
 	m := map[string]d{}
 	for v := range list {
-		login := *list[v].Committer.Login
+		login := *list[v].Author.Login
 		if _, ok := m[login]; ok {
-			m[login] = d{list[v].Committer, m[login].count + 1}
+			m[login] = d{list[v].Author, m[login].count + 1}
 		} else {
-			m[login] = d{list[v].Committer, 1}
+			m[login] = d{list[v].Author, 1}
 		}
 
 		if v != 0 {

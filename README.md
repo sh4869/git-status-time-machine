@@ -2,6 +2,8 @@
 
 ![スクリーンショット](images/screen_shot.png)
 
+[発表スライド](https://docs.google.com/presentation/d/1JxCuKNgEX3OJlEK7PjTCS9Kt8orexiDxTJ-I7EQxCIo/edit?usp=sharing)
+
 ## 実行方法
 
 - `git clone https://github.com/sh4869/git-status-time-machine.git`

@@ -3,11 +3,17 @@ import { ReposGetCommitResponseData } from '@octokit/types';
 export type Commit = {
   owner: string;
   name: string;
-  commit?: { count: number; commit: ReposGetCommitResponseData };
+  commit?: CommitPointRaw;
+};
+
+export type CommitPointRaw = {
+  count: number;
+  end_commit: ReposGetCommitResponseData;
+  start_commit: ReposGetCommitResponseData;
 };
 
 export type CommitPoint = {
-  initial?: { count: number; commit: ReposGetCommitResponseData };
-  midterm?: { count: number; commit: ReposGetCommitResponseData };
-  latest?: { count: number; commit: ReposGetCommitResponseData };
+  initial?: CommitPointRaw;
+  midterm?: CommitPointRaw;
+  latest?: CommitPointRaw;
 };

@@ -18,12 +18,11 @@ export const CodeScoreUI = (props: { commit: Commit }): React.ReactElement => {
   return codeScore != null ? (
     <div style={{ textAlign: 'center' }}>
       <PieChart
-        data={[{ value: codeScore.score, color: color }]}
+        data={[{ value: 0, color: color }]}
         reveal={codeScore.score}
         lineWidth={20}
         background="#bfbfbf"
         animate
-        label={() => codeScore.score}
         labelStyle={() => ({
           fill: color,
           fontSize: '25px',
@@ -32,6 +31,7 @@ export const CodeScoreUI = (props: { commit: Commit }): React.ReactElement => {
         style={{ height: '150px' }}
         labelPosition={0}
       />
+      <p>Future Works...</p>
     </div>
   ) : (
     <div>Loading</div>

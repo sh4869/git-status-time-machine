@@ -2,7 +2,7 @@ import * as React from 'react';
 import { CommitStatus } from 'src/types/status';
 import { Commit } from 'src/types/commit';
 import { Col, Row, Grid } from 'react-flexbox-grid';
-export const CommitStatusComponent = (props: { commit: Commit }) => {
+export const CommitStatusComponent = (props: { commit: Commit }): React.ReactElement => {
   const [status, setStatus] = React.useState<CommitStatus | null>(null);
   React.useEffect(() => {
     if (status == null) {

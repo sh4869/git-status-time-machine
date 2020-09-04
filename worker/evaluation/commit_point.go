@@ -2,6 +2,7 @@ package evaluation
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/google/go-github/v32/github"
 )
@@ -13,37 +14,60 @@ type CommitPointResponse struct {
 }
 
 type CommitPoint struct {
-	Count  int                      `json:"count"`
-	Commit *github.RepositoryCommit `json:"commit"`
+	Count       int                      `json:"count"`
+	EndCommit   *github.RepositoryCommit `json:"end_commit"`
+	StartCommit *github.RepositoryCommit `json:"start_commit"`
 }
 
 func GetCommitPoint(client *github.Client, name string, repo string) (*CommitPointResponse, error) {
-	r, resp, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: 1}})
+	count, err := getCommitCount(client, name, repo)
 	if err != nil {
 		return nil, err
 	}
-	latest := &CommitPoint{1, r[0]}
-	commitCount := resp.LastPage
-	// 20コミットよりも少なかったらLatestだけ
-	if commitCount < 20 {
-		return &CommitPointResponse{Latest: latest}, nil
-		// 30コミットよりも少なかったらLatestとMidTermを返す
-	} else if commitCount < 30 {
-		d, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: 15}})
-		if err != nil {
-			return nil, err
-		}
-		return &CommitPointResponse{Latest: latest, Initial: &CommitPoint{15, d[0]}}, nil
-	} else {
-		// TODO: ここはもうちょっとアルゴリズムを練る
-		ini, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: commitCount - 10}})
-		if err != nil {
-			return nil, err
-		}
-		mid, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: (commitCount / 2)}})
-		if err != nil {
-			return nil, err
-		}
-		return &CommitPointResponse{Latest: latest, Midterm: &CommitPoint{commitCount / 2, mid[0]}, Initial: &CommitPoint{commitCount - 10, ini[0]}}, nil
+	if count < 10 {
+		return nil, fmt.Errorf("select more than 10 commit repository")
 	}
+	r, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 10, Page: 1}})
+	// 20コミットよりも少なかったらLatestだけ
+	if count < 20 {
+		return &CommitPointResponse{
+			Latest: &CommitPoint{1, r[0], r[9]},
+		}, nil
+	}
+	// 30コミットよりも少なかったらLatestとInitialを返す
+	if count < 30 {
+		d, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 15, Page: 2}})
+		if err != nil {
+			return nil, err
+		}
+		return &CommitPointResponse{
+			Latest:  &CommitPoint{1, r[0], r[9]},
+			Initial: &CommitPoint{15, d[0], d[9]},
+		}, nil
+	}
+	// それ以上なら3つ返す
+	ini := count - 10
+	mid := count / 2
+	// TODO: ここ本来は2回のリクエストで済むはず
+	iniE, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: ini}})
+	if err != nil {
+		return nil, err
+	}
+	iniS, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: ini + 10}})
+	if err != nil {
+		return nil, err
+	}
+	midE, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: mid}})
+	if err != nil {
+		return nil, err
+	}
+	midS, _, err := client.Repositories.ListCommits(context.Background(), name, repo, &github.CommitsListOptions{ListOptions: github.ListOptions{PerPage: 1, Page: mid + 10}})
+	if err != nil {
+		return nil, err
+	}
+	return &CommitPointResponse{
+		Latest:  &CommitPoint{1, r[0], r[9]},
+		Midterm: &CommitPoint{mid, midE[0], midS[0]},
+		Initial: &CommitPoint{ini, iniE[0], iniS[0]},
+	}, nil
 }

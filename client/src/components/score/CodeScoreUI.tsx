@@ -3,7 +3,7 @@ import { Commit } from 'src/types/commit';
 import { CodeScore } from 'src/types/score';
 import { PieChart } from 'react-minimal-pie-chart';
 
-export const CodeScoreUI = (props: { commit: Commit }) => {
+export const CodeScoreUI = (props: { commit: Commit }): React.ReactElement => {
   const [codeScore, setcodeScore] = React.useState<CodeScore | null>(null);
   React.useEffect(() => {
     if (codeScore == null) {
